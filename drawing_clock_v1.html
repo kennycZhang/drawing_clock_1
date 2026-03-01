@@ -1,327 +1,329 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>⏰ 钟表绘画测试</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { margin:0; padding:20px; font-family:sans-serif; text-align:center; background-color: #f9f9f9; }
-        h2 { margin-bottom: 10px; color: #333; }
-        
-        /* --- 布局容器 --- */
-        .main-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            align-items: flex-start;
-        }
+<meta charset="UTF-8">
+<title>⏰ 钟表绘画测试</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { margin:0; padding:20px; font-family:sans-serif; text-align:center; background-color: #f9f9f9; }
+h2 { margin-bottom: 10px; color: #333; }
 
-        /* 左侧绘图区容器 */
-        .drawing-section {
-            flex: 1;
-            min-width: 300px;
-            max-width: 700px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    /* --- 布局容器 --- */
+    .main-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        align-items: flex-start;
+    }
 
-        /* 右侧控制区容器 */
-        .control-section {
-            width: 340px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    /* 左侧绘图区容器 */
+    .drawing-section {
+        flex: 1;
+        min-width: 300px;
+        max-width: 700px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        /* --- 目标时间显示样式 --- */
-        #target-time-display { 
-            font-size:1.5em; 
-            color:#d9534f; 
-            font-weight:bold; 
-            margin: 15px 0; 
-            display: block;
-            min-height: 1.5em; 
-        }
-        
-        /* 说明框样式 */
-        .instruction-box {
-            background-color: #e7f3fe;
-            border-left: 6px solid #2196F3;
-            margin: 0 auto 20px auto;
-            padding: 15px;
-            text-align: left;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .instruction-box h3 { margin-top: 0; color: #0b5394; font-size: 1.2em; }
-        .instruction-box p { margin: 8px 0; line-height: 1.6; color: #333; font-size: 14px; }
-        .instruction-box strong { color: #d9534f; }
-        
-        /* Canvas 样式 */
-        #canvas { 
-            border: 2px solid #333; 
-            background: #fff; 
-            cursor: crosshair; 
-            touch-action: none; 
-            max-width: 100%; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-radius: 4px;
-        }
+    /* 右侧控制区容器 */
+    .control-section {
+        width: 340px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        /* 通用按钮容器 */
-        .toolbar {
-            margin-top: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-        }
+    /* --- 目标时间显示样式 --- */
+    #target-time-display { 
+        font-size:1.5em; 
+        color:#d9534f; 
+        font-weight:bold; 
+        margin: 15px 0; 
+        display: block;
+        min-height: 1.5em; 
+    }
+    
+    /* 说明框样式 */
+    .instruction-box {
+        background-color: #e7f3fe;
+        border-left: 6px solid #2196F3;
+        margin: 0 auto 20px auto;
+        padding: 15px;
+        text-align: left;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .instruction-box h3 { margin-top: 0; color: #0b5394; font-size: 1.2em; }
+    .instruction-box p { margin: 8px 0; line-height: 1.6; color: #333; font-size: 14px; }
+    .instruction-box strong { color: #d9534f; }
+    
+    /* Canvas 样式 */
+    #canvas { 
+        border: 2px solid #333; 
+        background: #fff; 
+        cursor: crosshair; 
+        touch-action: none; 
+        max-width: 100%; 
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-radius: 4px;
+    }
 
-        /* 颜色按钮专用容器 (确保三个按钮一排等宽) */
-        .color-toolbar {
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            width: 100%;
-            margin-bottom: 15px;
-        }
+    /* 通用按钮容器 */
+    .toolbar {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+    }
 
-        /* 通用按钮样式 */
-        button {
-            padding: 10px 12px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            background-color: #fff;
-            color: #333;
-            flex: 1 0 auto;
-            min-width: 70px;
-        }
-        button:hover { background-color: #e9ecef; }
-        button:active { transform: scale(0.98); }
+    /* 颜色按钮专用容器 (确保三个按钮一排等宽) */
+    .color-toolbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+        margin-bottom: 15px;
+    }
 
-        /* 特定按钮颜色 */
-        .btn-clear { background-color: #ffc107; color: #333; border-color: #ffc107; }
-        .btn-clear:hover { background-color: #e0a800; }
-        .btn-undo { background-color: #6c757d; color: white; border-color: #6c757d; }
-        .btn-undo:hover { background-color: #5a6268; }
-        .btn-undo:disabled { opacity: 0.5; cursor: not-allowed; }
+    /* 通用按钮样式 */
+    button {
+        padding: 10px 12px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        background-color: #fff;
+        color: #333;
+        flex: 1 0 auto;
+        min-width: 70px;
+    }
+    button:hover { background-color: #e9ecef; }
+    button:active { transform: scale(0.98); }
 
-        /* 颜色按钮样式调整 */
-        .color-toolbar button {
-            flex: 1; /* 关键：让三个按钮平分宽度 */
-            white-space: nowrap; /* 防止文字换行 */
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    /* 特定按钮颜色 */
+    .btn-clear { background-color: #ffc107; color: #333; border-color: #ffc107; }
+    .btn-clear:hover { background-color: #e0a800; }
+    .btn-undo { background-color: #6c757d; color: white; border-color: #6c757d; }
+    .btn-undo:hover { background-color: #5a6268; }
+    .btn-undo:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .btn-color-dial { border-bottom: 3px solid #000; font-weight: bold; }
-        .btn-color-hour { border-bottom: 3px solid #dc3545; color: #dc3545; font-weight: bold; }
-        .btn-color-minute { border-bottom: 3px solid #007bff; color: #007bff; font-weight: bold; }
+    /* 颜色按钮样式调整 */
+    .color-toolbar button {
+        flex: 1; /* 关键：让三个按钮平分宽度 */
+        white-space: nowrap; /* 防止文字换行 */
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-        .btn-submit { 
-            background: #007bff; 
-            color: white; 
-            border: none; 
-            font-weight: bold;
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-        .btn-submit:hover { background: #0056b3; }
+    .btn-color-dial { border-bottom: 3px solid #000; font-weight: bold; }
+    .btn-color-hour { border-bottom: 3px solid #dc3545; color: #dc3545; font-weight: bold; }
+    .btn-color-minute { border-bottom: 3px solid #007bff; color: #007bff; font-weight: bold; }
 
-        /* 状态与结果框 (移至右侧) */
-        #status { 
-            color: #666; 
-            margin-bottom: 10px; 
-            white-space: pre-wrap; 
-            line-height: 1.5; 
-            background: #fff; 
-            padding: 10px; 
-            border-radius: 4px; 
-            width: 100%; 
-            box-sizing: border-box;
-            font-size: 14px; 
-            border: 1px solid #eee;
-        }
-        #ai-result-box { 
-            margin-top: 0; 
-            padding: 20px; 
-            border-radius: 8px; 
-            font-size: 1.5em; 
-            font-weight: bold; 
-            display: none; 
-            animation: fadeIn 0.5s ease-in-out; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
-            width: 100%; /* 适应右侧宽度 */
-            box-sizing: border-box;
-            word-wrap: break-word;
-        }
-        .result-success { background-color: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
-        .result-fail { background-color: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
-        .result-error { background-color: #fff3cd; color: #856404; border: 2px solid #ffeeba; font-size: 1em; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .btn-submit { 
+        background: #007bff; 
+        color: white; 
+        border: none; 
+        font-weight: bold;
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+    .btn-submit:hover { background: #0056b3; }
 
-        /* --- ID 输入区特有样式 --- */
-        .id-input-display {
-            width: 100%;
-            padding: 12px;
-            font-size: 24px;
-            text-align: center;
-            border: 2px solid #ccc;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            background: #f0f0f0;
-            /* cursor: pointer; 移除点击手势，因为键盘常显 */
-            letter-spacing: 2px;
-            box-sizing: border-box;
-        }
-        .id-input-display:focus {
-            border-color: #007bff;
-            outline: none;
-            background: #fff;
-        }
-        .id-label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-            color: #555;
-        }
+    /* 状态与结果框 (移至右侧) */
+    #status { 
+        color: #666; 
+        margin-bottom: 10px; 
+        white-space: pre-wrap; 
+        line-height: 1.5; 
+        background: #fff; 
+        padding: 10px; 
+        border-radius: 4px; 
+        width: 100%; 
+        box-sizing: border-box;
+        font-size: 14px; 
+        border: 1px solid #eee;
+    }
+    #ai-result-box { 
+        margin-top: 0; 
+        padding: 20px; 
+        border-radius: 8px; 
+        font-size: 1.5em; 
+        font-weight: bold; 
+        display: none; 
+        animation: fadeIn 0.5s ease-in-out; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+        width: 100%; /* 适应右侧宽度 */
+        box-sizing: border-box;
+        word-wrap: break-word;
+    }
+    .result-success { background-color: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
+    .result-fail { background-color: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
+    .result-error { background-color: #fff3cd; color: #856404; border: 2px solid #ffeeba; font-size: 1em; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 九宫格键盘 - 修改为默认显示 */
-        .numpad {
-            display: grid; /* 默认直接显示 grid */
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            width: 100%;
-            margin-top: 10px;
-            margin-bottom: 15px;
-            /* display: none;  移除隐藏 */
-            /* .active 类不再需要控制显示 */
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-        }
-        
-        .num-btn {
-            padding: 15px 0;
-            font-size: 20px;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            cursor: pointer;
-            user-select: none;
-        }
-        .num-btn:active { background-color: #e2e6ea; }
-        
-        .num-btn-del { background-color: #ffc107; color: #333; font-weight: bold; border: none;}
-        .num-btn-confirm { 
-            background-color: #28a745; 
-            color: #333; 
-            font-weight: bold; 
-            border: none;
-        }
+    /* --- ID 输入区特有样式 --- */
+    .id-input-display {
+        width: 100%;
+        padding: 12px;
+        font-size: 24px;
+        text-align: center;
+        border: 2px solid #ccc;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        background: #f0f0f0;
+        letter-spacing: 2px;
+        box-sizing: border-box;
+    }
+    .id-input-display:focus {
+        border-color: #007bff;
+        outline: none;
+        background: #fff;
+    }
+    .id-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+        color: #555;
+    }
 
-        /* 分隔线 */
-        .divider {
-            width: 100%;
-            height: 1px;
-            background-color: #eee;
-            margin: 15px 0;
-        }
+    /* 九宫格键盘 - 修改为默认显示 */
+    .numpad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+    }
+    
+    .num-btn {
+        padding: 15px 0;
+        font-size: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        user-select: none;
+    }
+    .num-btn:active { background-color: #e2e6ea; }
+    
+    .num-btn-del { background-color: #ffc107; color: #333; font-weight: bold; border: none;}
+    .num-btn-confirm { 
+        background-color: #28a745; 
+        color: #333; 
+        font-weight: bold; 
+        border: none;
+    }
 
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .main-wrapper { flex-direction: column; align-items: center; }
-            .control-section { width: 100%; max-width: 666px; }
-            .drawing-section { width: 100%; }
-        }
-    </style>
+    /* 分隔线 */
+    .divider {
+        width: 100%;
+        height: 1px;
+        background-color: #eee;
+        margin: 15px 0;
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+        .main-wrapper { flex-direction: column; align-items: center; }
+        .control-section { width: 100%; max-width: 666px; }
+        .drawing-section { width: 100%; }
+    }
+
+    /* --- 新增：禁用状态样式 --- */
+    .disabled-btn {
+        opacity: 0.5 !important;
+        cursor: not-allowed !important;
+        pointer-events: none !important; /* 禁止鼠标事件 */
+        filter: grayscale(100%);
+    }
+</style>
 </head>
 <body>
 
 <h2>⏰ 钟表绘画测试</h2>
 
 <div class="main-wrapper">
+
+<!-- 左侧：绘图区域 -->
+<div class="drawing-section">
+    <div class="instruction-box">
+        <h3>操作指南</h3>
+        <p>请在窗口处画一个圆形的钟表，需要画出<strong>表盘和 12 个刻度以及 3,6,9,12 四个数字</strong>以及<strong>时针和分针</strong>。</p>
+        <p>1. 在右侧输入 ID 并点击<strong>“确认”</strong>获取题目。</p>
+        <p>2. 使用右侧按钮切换画笔颜色进行绘画。</p>
+        <p>3. 完成后点击右侧蓝色按钮<strong>“保存并提交”</strong>。</p>
+    </div>
+
+    <p id="target-time-display">请输入右侧 ID 并开始</p>
+
+    <canvas id="canvas" width="666" height="666"></canvas>
+</div>
+
+<!-- 右侧：控制区域 (ID + 按钮 + 结果) -->
+<div class="control-section">
+    <!-- ID 输入部分 -->
+    <label class="id-label">请输入受试者 ID</label>
+    <div class="id-input-display" id="idInput">点击输入 ID</div>
     
-    <!-- 左侧：绘图区域 -->
-    <div class="drawing-section">
-        <div class="instruction-box">
-            <h3>操作指南</h3>
-            <p>请在窗口处画一个圆形的钟表，需要画出<strong>表盘和 12 个刻度以及 3,6,9,12 四个数字</strong>以及<strong>时针和分针</strong>。</p>
-            <p>1. 在右侧输入 ID 并点击<strong>“确认”</strong>获取题目。</p>
-            <p>2. 使用右侧按钮切换画笔颜色进行绘画。</p>
-            <p>3. 完成后点击右侧蓝色按钮<strong>“保存并提交”</strong>。</p>
-        </div>
-
-        <p id="target-time-display">请输入右侧 ID 并开始</p>
-
-        <canvas id="canvas" width="666" height="666"></canvas>
-        <!-- 状态和结果框已移至右侧 -->
+    <!-- 数字九宫格 -->
+    <div class="numpad" id="numpad">
+        <button class="num-btn" onclick="inputNumber('1')">1</button>
+        <button class="num-btn" onclick="inputNumber('2')">2</button>
+        <button class="num-btn" onclick="inputNumber('3')">3</button>
+        <button class="num-btn" onclick="inputNumber('4')">4</button>
+        <button class="num-btn" onclick="inputNumber('5')">5</button>
+        <button class="num-btn" onclick="inputNumber('6')">6</button>
+        <button class="num-btn" onclick="inputNumber('7')">7</button>
+        <button class="num-btn" onclick="inputNumber('8')">8</button>
+        <button class="num-btn" onclick="inputNumber('9')">9</button>
+        <button class="num-btn num-btn-del" onclick="deleteNumber()">⌫ 删除</button>
+        <button class="num-btn" onclick="inputNumber('0')">0</button>
+        <button class="num-btn num-btn-confirm" onclick="confirmAndStart()">✅ 确认</button>
     </div>
 
-    <!-- 右侧：控制区域 (ID + 按钮 + 结果) -->
-    <div class="control-section">
-        <!-- ID 输入部分 -->
-        <label class="id-label">请输入受试者 ID</label>
-        <!-- 移除 onclick="toggleNumpad()"，因为键盘常显 -->
-        <div class="id-input-display" id="idInput">点击输入 ID</div>
-        
-        <!-- 数字九宫格 - 移除 id="numpad" 上的 active 类依赖 -->
-        <div class="numpad" id="numpad">
-            <button class="num-btn" onclick="inputNumber('1')">1</button>
-            <button class="num-btn" onclick="inputNumber('2')">2</button>
-            <button class="num-btn" onclick="inputNumber('3')">3</button>
-            <button class="num-btn" onclick="inputNumber('4')">4</button>
-            <button class="num-btn" onclick="inputNumber('5')">5</button>
-            <button class="num-btn" onclick="inputNumber('6')">6</button>
-            <button class="num-btn" onclick="inputNumber('7')">7</button>
-            <button class="num-btn" onclick="inputNumber('8')">8</button>
-            <button class="num-btn" onclick="inputNumber('9')">9</button>
-            <button class="num-btn num-btn-del" onclick="deleteNumber()">⌫ 删除</button>
-            <button class="num-btn" onclick="inputNumber('0')">0</button>
-            <button class="num-btn num-btn-confirm" onclick="confirmAndStart()">✅ 确认</button>
-        </div>
+    <div class="divider"></div>
 
-        <div class="divider"></div>
-
-        <!-- 绘图工具按钮 (清屏、撤销) -->
-        <div class="toolbar">
-            <button class="btn-clear" onclick="clearCanvasOnly()">🧹 清屏</button>
-            <button class="btn-undo" id="btnUndo" onclick="undoLastStroke()" disabled>↩️ 撤销</button>
-        </div>
-
-        <!-- 颜色按钮 (表盘、时针、分针 - 一排等宽) -->
-        <div class="color-toolbar">
-            <button class="btn-color-dial" onclick="setColor('#000000')">⚫ 表盘</button>
-            <button class="btn-color-hour" onclick="setColor('#dc3545')">🔴 时针</button>
-            <button class="btn-color-minute" onclick="setColor('#007bff')">🔵 分针</button>
-        </div>
-
-        <!-- 提交按钮 -->
-        <button class="btn-submit" onclick="submitDrawing()" id="submitBtn">💾 保存并提交</button>
-
-        <!-- 状态显示 -->
-        <p id="status"></p>
-        
-        <!-- 结果框 (最底部) -->
-        <div id="ai-result-box"></div>
+    <!-- 绘图工具按钮 (清屏、撤销) -->
+    <div class="toolbar" id="toolToolbar">
+        <button class="btn-clear" onclick="clearCanvasOnly()">🧹 清屏</button>
+        <button class="btn-undo" id="btnUndo" onclick="undoLastStroke()" disabled>↩️ 撤销</button>
     </div>
 
+    <!-- 颜色按钮 (表盘、时针、分针 - 一排等宽) -->
+    <div class="color-toolbar" id="colorToolbar">
+        <button class="btn-color-dial" onclick="setColor('#000000')">⚫ 表盘</button>
+        <button class="btn-color-hour" onclick="setColor('#dc3545')">🔴 时针</button>
+        <button class="btn-color-minute" onclick="setColor('#007bff')">🔵 分针</button>
+    </div>
+
+    <!-- 提交按钮 -->
+    <button class="btn-submit" onclick="submitDrawing()" id="submitBtn">💾 保存并提交</button>
+
+    <!-- 状态显示 -->
+    <p id="status"></p>
+    
+    <!-- 结果框 (最底部) -->
+    <div id="ai-result-box"></div>
+</div>
 </div>
 
 <script>
@@ -339,10 +341,9 @@ const timeDisplayEl = document.getElementById('target-time-display');
 
 // ID 输入相关元素
 const idInputDisplay = document.getElementById('idInput');
-// const numpad = document.getElementById('numpad'); // 不再需要操作键盘显示隐藏
 
 let isDrawing = false;
-let targetTime = ""; 
+let targetTime = "";
 let currentColor = '#000000';
 let currentId = ""; // 当前正在输入的 ID
 
@@ -356,14 +357,15 @@ window.onload = function() {
     clearCanvasOnly();
     historyStack = [];
     updateUndoButton();
-    
+
     // 每次打开强制清空 ID
     resetIdInput();
+    
+    // 【重要】初始化时禁用所有绘图相关按钮
+    toggleButtons(false);
 };
 
 // --- ID 输入逻辑 ---
-
-// 移除 toggleNumpad 函数，键盘默认显示
 
 function inputNumber(num) {
     if(currentId.length < 10) {
@@ -384,7 +386,7 @@ function updateIdDisplay() {
     } else {
         idInputDisplay.textContent = currentId;
         idInputDisplay.style.color = "#333";
-        idInputDisplay.style.borderColor = "#007bff"; 
+        idInputDisplay.style.borderColor = "#007bff";
     }
 }
 
@@ -393,12 +395,13 @@ function confirmAndStart() {
         alert("请输入 ID 后再确认！");
         return;
     }
-    
+
     // 视觉反馈
     idInputDisplay.style.color = "#28a745";
     idInputDisplay.style.borderColor = "#28a745";
-    
-    // 不再需要收起键盘
+
+    // 【重要】确认成功后，启用其他按钮
+    toggleButtons(true);
 
     // 开始绘画流程
     startNewDrawing();
@@ -411,6 +414,9 @@ function resetIdInput() {
     idInputDisplay.style.color = "#333";
     idInputDisplay.style.borderColor = "#ccc";
     localStorage.removeItem('participant_id');
+    
+    // 【重要】重置 ID 时，再次禁用其他按钮
+    toggleButtons(false);
 }
 
 // --- 核心绘图逻辑 ---
@@ -421,18 +427,21 @@ function getPos(e) {
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
-    return { 
-        x: (clientX - rect.left) * scaleX, 
-        y: (clientY - rect.top) * scaleY 
+    return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
     };
 }
 
 const startDraw = (e) => {
+    // 双重检查：如果还没确认 ID，禁止绘画（虽然按钮已禁用，但防止直接操作 Canvas）
+    if (!targetTime) {
+        alert("请先输入 ID 并点击确认开始！");
+        return;
+    }
+
     isDrawing = true;
     const pos = getPos(e);
-    
-    // 【修改点】在开始画新的一笔之前，保存当前画布状态到历史栈
-    // 这样撤销时，可以恢复到这一笔开始之前的样子
     saveState();
 
     ctx.beginPath();
@@ -446,7 +455,6 @@ const endDraw = () => {
     if (!isDrawing) return;
     isDrawing = false;
     ctx.closePath();
-    // 移除这里的 saveState()，因为已经在 startDraw 中保存了
 };
 
 const moveDraw = (e) => {
@@ -481,13 +489,13 @@ function updateUndoButton() {
 function startNewDrawing() {
     const randomIndex = Math.floor(Math.random() * TIME_OPTIONS.length);
     targetTime = TIME_OPTIONS[randomIndex];
-    
+
     timeDisplayEl.textContent = `请画出时间：${targetTime}`;
-    
+
     clearCanvasOnly();
     historyStack = []; // 清空历史
     updateUndoButton();
-    
+
     aiResultBox.style.display = 'none';
     aiResultBox.className = '';
     statusEl.textContent = '已开始新回合，请作画';
@@ -495,16 +503,18 @@ function startNewDrawing() {
 }
 
 function clearCanvasOnly() {
+    // 如果未确认 ID，禁止清屏
+    if (!targetTime && currentId === "") {
+        alert("请先输入 ID 并点击确认开始！");
+        return;
+    }
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function undoLastStroke() {
     if (historyStack.length === 0) return;
-    
-    // 弹出栈顶元素，这是“上一笔开始前”的状态
     const previousState = historyStack.pop();
-    
     const img = new Image();
     img.src = previousState;
     img.onload = function() {
@@ -515,12 +525,17 @@ function undoLastStroke() {
 }
 
 function setColor(color) {
+    // 如果未确认 ID，禁止变色
+    if (!targetTime && currentId === "") {
+        alert("请先输入 ID 并点击确认开始！");
+        return;
+    }
     currentColor = color;
 }
 
 async function submitDrawing() {
     if(!currentId && !idInputDisplay.textContent.includes("点击输入")) {
-         currentId = idInputDisplay.textContent;
+        currentId = idInputDisplay.textContent;
     }
 
     if(!currentId || currentId === "点击输入 ID") {
@@ -538,12 +553,12 @@ async function submitDrawing() {
     aiResultBox.className = '';
     statusEl.textContent = '正在上传并等待 AI 分析...';
     statusEl.style.color = '#666';
-    
+
     submitBtn.disabled = true;
     submitBtn.textContent = '⏳ 分析中...';
 
     const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-    
+
     try {
         const response = await fetch(`${BACKEND_URL}/api/submit_task`, {
             method: 'POST',
@@ -583,7 +598,7 @@ async function submitDrawing() {
             statusEl.style.color = '#856404';
         }
         
-        // 提交成功后，清空 ID 输入框
+        // 提交成功后，清空 ID 输入框并禁用按钮
         resetIdInput();
         
     } catch (error) {
@@ -593,12 +608,36 @@ async function submitDrawing() {
         aiResultBox.className = 'result-error';
         statusEl.innerHTML = `❌ <b>提交失败</b>\n\n错误信息：${error.message}`;
         statusEl.style.color = 'red';
+        
+        // 出错后也重置 ID 并禁用按钮
+        resetIdInput();
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = '💾 保存并提交';
     }
 }
+
+// 【新增】控制按钮启用/禁用的函数
+function toggleButtons(isEnabled) {
+    const toolButtons = document.querySelectorAll('#toolToolbar button');
+    const colorButtons = document.querySelectorAll('#colorToolbar button');
+    const submitButton = document.getElementById('submitBtn');
+    
+    const allButtons = [...toolButtons, ...colorButtons, submitButton];
+    
+    allButtons.forEach(btn => {
+        if (isEnabled) {
+            btn.classList.remove('disabled-btn');
+            // 如果是撤销按钮，保持其原有的 disabled 逻辑（取决于是否有历史记录）
+            if(btn.id !== 'btnUndo') {
+                btn.disabled = false;
+            }
+        } else {
+            btn.classList.add('disabled-btn');
+            btn.disabled = true;
+        }
+    });
+}
 </script>
 </body>
 </html>
-
